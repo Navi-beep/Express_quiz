@@ -7,6 +7,11 @@ app.get('/', (req, res) => {
 res.send('Hello World')
 });
 
+//initalize routes
+const initRoutes = require('./src/routes');
+initRoutes(app);
+
 app.listen(port, () => {
     console.log(`Server is now running on port ${port}`)
 });
+
