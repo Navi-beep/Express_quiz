@@ -1,16 +1,15 @@
 const MainAuthRouter = require('express').Router();
 
-MainAuthRouter.get('/', (req, res)=>{
-    res.send('Main Auth Router')
-})
 
 MainAuthRouter.route('/register')
-.get((req, res) => { res.render('register')
-})
-.post((req, res) => { res.send('Main Auth Router')
-})
+    .get(require('register.view'))
+    .post((req, res) => { res.send('Post Main Auth Router')
+    })
 
 
+
+MainAuthRouter.route('/login')
+    .get(require ('login.view'))
 
 
 
