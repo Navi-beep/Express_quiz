@@ -5,7 +5,7 @@ MainAuthRouter.get('/', (req, res)=>{
 })
 
 MainAuthRouter.route('/register')
-.get((req, res) => { res.send('Main Auth Router Register')
+.get((req, res) => { res.render('register')
 })
 .post((req, res) => { res.send('Main Auth Router')
 })
