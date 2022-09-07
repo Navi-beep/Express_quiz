@@ -1,10 +1,15 @@
 const express = require('express');
+const dotenv = require('dotenv');
+
 //const res = require('express/lib/response');
-const app = express();
-const port = 3000;
+
+//const port = 3000;
 const path = require('path');
 console.log(path);
-
+const { connectDB } = require('./src/db')
+dotenv.config()
+const app = express();
+connectDB();
 
 app.get('/', (req, res) => {
 res.send('Hello World')
@@ -21,7 +26,7 @@ app.use(express.urlencoded({ extended: true}))
 const initRoutes = require('./src/routes');
 initRoutes(app);
 
-app.listen(port, () => {
-    console.log(`Server is now running on port ${port}`)
+app.listen(process.env.PORT, () => {
+    console.log(`Server is now running on port ${process.env.PORT}`)
 });
 
