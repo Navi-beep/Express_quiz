@@ -1,4 +1,5 @@
-module.export = {
+module.exports = {
     User:require('./user.model')
 }
+
 

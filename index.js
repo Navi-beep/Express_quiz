@@ -1,5 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const { graphqlHTTP } = require('express-graphql')
+const schema = require('./src/graphql/schema')
+
+
 
 //const res = require('express/lib/response');
 
@@ -10,6 +14,14 @@ const { connectDB } = require('./src/db')
 dotenv.config()
 const app = express();
 connectDB();
+
+
+app.use('/graphql', graphqlHTTP({
+    schema, 
+    graphiql: true 
+}));
+
+
 
 app.get('/', (req, res) => {
 res.send('Hello World')

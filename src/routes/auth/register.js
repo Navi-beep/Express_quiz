@@ -6,5 +6,7 @@ module.exports = (req, res) => {
         return 
     }
     const { username, email, password } = req.body
-    res.send('Post register from register')
+    const user = new User({ username, email, password})
+    user.save();
+    res.send(`New User Created - ${user.username}`)  
 }
