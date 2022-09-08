@@ -1,44 +1,39 @@
-const express = require('express');
 const dotenv = require('dotenv');
-const { graphqlHTTP } = require('express-graphql')
-const schema = require('./src/graphql/schema')
-
-
-
-//const res = require('express/lib/response');
-
-//const port = 3000;
+const express = require('express');
 const path = require('path');
-console.log(path);
-const { connectDB } = require('./src/db')
-dotenv.config()
+const { connectDB } = require('./src/db');
+const { graphqlHTTP } = require('express-graphql');
+const schema = require('./src/graphql/schema');
+const cookieParser = require('cookie-parser')
+
+dotenv.config();
 const app = express();
 connectDB();
 
+app.use(cookieParser())
 
 app.use('/graphql', graphqlHTTP({
-    schema, 
-    graphiql: true 
+    schema,
+    graphiql: true
 }));
 
-
-
 app.get('/', (req, res) => {
-res.send('Hello World')
+    res.send('Hello World')
 });
 
-//set the view to engine
+// Set the view engine to ejs
 app.set('view engine', 'ejs')
+// Update the location of the views folder that res.render uses
 app.set('views', path.join(__dirname, 'src/templates/views'))
 
+// Need this middleware so that form data is added to request
+app.use(express.urlencoded({ extended: true }))
 
-app.use(express.urlencoded({ extended: true}))
-//initalize routes
-
+// Initialize routes
 const initRoutes = require('./src/routes');
 initRoutes(app);
 
+
 app.listen(process.env.PORT, () => {
     console.log(`Server is now running on port ${process.env.PORT}`)
-});
-
+})

@@ -10,4 +10,7 @@ MainAuthRouter.route('/login')
 
 
 
+MainAuthRouter.route('/logout')
+    .get(require('./logout'))
+
 module.exports = MainAuthRouter
