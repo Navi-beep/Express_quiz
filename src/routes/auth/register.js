@@ -12,6 +12,9 @@ module.exports = async (req, res) => {
             register( email: $email, username: $username, password: $password)
         }
         `
+
+
+        
         const { data } = await axios.post(process.env.GRAPHQL_ENDPOINT,
             {
                 query: mutation,

@@ -1,6 +1,7 @@
 const { GraphQLString } = require('graphql');
 const { User } = require('../models');
 const { createJwtToken } = require('../util/auth')
+const bcrypt = require('bcrypt');
 
 
 const register = {
@@ -19,7 +20,9 @@ const register = {
 
         const { username, email, password } = args;
 
-        const user = new User({ username, email, password });
+        const passwordHash = await bcrypt.hash(password, 10)
+
+        const user = new User({ username, email, password: passwordHash }); 
 
         await user.save();
 
@@ -38,7 +41,8 @@ const login = {
     },
     async resolve(parent, args){
         const user = await User.findOne({ email: args.email });
-        if (!user || user.password !== args.password){
+        const correctPass = await bcrypt.compare(args.password, user?.password || '')
+        if (!user || !correctPass ){
             throw new Error('Invalid Credentials');
         };
 
