@@ -42,7 +42,7 @@ const userData = async (req, res, next) => {
     } catch(err) {
         console.log(err)
     }
-
+    console.log(req.verifiedUser)
     req.verifiedUser.user.quizzes = data?.data?.data?.user?.quizzes ?? [];
 
     next()

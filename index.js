@@ -4,13 +4,17 @@ const path = require('path');
 const { connectDB } = require('./src/db');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./src/graphql/schema');
-const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser');
+const {authenticate} = require('./src/middleware/auth')
+const {userData} = require('./src/middleware/userData')
 
 dotenv.config();
 const app = express();
 connectDB();
 
 app.use(cookieParser())
+app.use(authenticate)
+app.use(userData) 
 
 app.use('/graphql', graphqlHTTP({
     schema,
@@ -24,9 +28,6 @@ app.set('view engine', 'ejs')
 // Update the location of the views folder that res.render uses
 app.set('views', path.join(__dirname, 'src/templates/views'))
 
-app.get('/', (req, res) => {
-    res.render('dashboard')
-});
 
 // Need this middleware so that form data is added to request
 app.use(express.urlencoded({ extended: true }))
